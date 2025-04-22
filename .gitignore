@@ -5,10 +5,6 @@
 *.env
 *.env.*
 
-# Uploads
-/uploads/*
-!/uploads/.gitkeep
-
 # IDEs and OS
 .DS_Store
 .idea/
