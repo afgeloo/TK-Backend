@@ -1,0 +1,290 @@
+-- DUMMY DATA
+INSERT INTO tk_webapp.aboutus (
+    background, overview, core_kapwa, core_kalinangan, core_kaginhawaan, 
+    mission, vision, council, adv_kalusugan, adv_kalikasan, adv_karunungan, 
+    adv_kultura, adv_kasarian, contact_no, about_email
+) VALUES (
+    'Ang Tara Kabataan (TK) ay naitatag noong Hulyo 3, 2022, pagkatapos ng 2022 national elections. Sa tulong ng DAKILA at Partido Manggagawa, nabuo ang pormasyon na binubuo ng mga boluntaryo mula sa national campaign sa Maynila. Mula rito, nagpasya ang mga kabataan na hindi lang kandidato ang susuportahan kundi mga pangmatagalang adbokasiya. Layunin din nilang bumuo ng malalalim na ugnayan sa iba’t ibang organisasyon at komunidad. Nagsimula ang TK sa boluntaryong pagtulong sa mga relief operations tuwing may sakuna at Brigada Eskwela sa mga pampublikong paaralan. Sa kasalukuyan, mas malawak na ang sakop nito, na may ugnayan sa maraming komunidad sa Maynila at sa ibang lungsod. May limang pangunahing adbokasiya ang TK: karunungan, kasarian, kalikasan, kalusugan, at kultura. Sa lahat ng gawain, nakasentro ang TK sa tao at karapatang pantao, kasama ang mga kabataan sa pagtataguyod ng kaginhawaan para sa lahat.',
+    'Ang Tara Kabataan (TK) ay isang organisasyon ng mga kabataan sa Maynila na itinatag para isulong ang kaginhawaan ng bawat kabataan at Manilenyo. Pinapahalagahan ng samahan ang pakikipagkapwa ng mga Pilipino na nakasandig sa ating karapatan at pagkakapantay-pantay. Naniniwala ang TK sa kakayahan ng bawat kabataan, sa loob at labas ng paaralan, na siyang higit na dapat mabigyan ng oportunidad na malinang at mapaunlad. Mula rito, mas makikilala ng kabataan ang kaniyang sarili at matatanaw ang kaniyang mahalagang papel sa komunidad, lipunan, at bayan. Mula sa sarili tungo sa bayan ang siyang hinihikayat ng Tara Kabataan sa kaniyang kapwa.',
+    'Pagpapalaganap ng pagkakapantay-pantay at tunay na koneksyon sa pamamagitan ng pakikiisa sa mga tao.\n\nIsinasabuhay ito ng TK sa pamamagitan ng pagtutulungan at bayanihan sa mga komunidad, lalo na sa pagbibigay suporta sa mga nangangailangan. Pinapahalagahan nila ang pakikinig at pag-intindi sa iba''t ibang perspektibo upang mapalakas ang pagkakaisa.',
+    'Pagyakap sa maingat na proseso ng pag-unawa at pagmumuni-muni.\n\nBilang organisasyon, binibigyang-halaga ng TK ang patuloy na pag-aaral ng sarili at lipunan mula sa sariling karanasan at sa mga kasamang komunidad. Ginagamit ang mga natutunan upang mas mapabuti ang mga programa at adbokasiya.',
+    'Pagsusumikap na makamit ang pag-unlad at kagalingang panlahat.\n\nTinitiyak ng TK na ang kanilang mga gawain ay may positibong epekto sa komunidad, mula sa maliit na tulong hanggang sa paglikha ng mga programang tumutugon sa pangmatagalang pangangailangan. Layunin na makapagbigay ng konkretong pagbabago na nakakapagpagaan ng buhay ng mga tao.',
+    'Layunin ng Tara Kabataan ang pagpapatibay ng lakas at tinig ng mga kabataan, sa loob at labas ng paaralan, upang makilala nila ang kanilang sarili at ang kanilang taglay na kakayahan at talento na siyang magsisilbing instrumento upang makatulong sa kanilang sarili, kapwa, komunidad, at bayan.',
+    'Pangarap ng Tara Kabataan ang pagkakaroon ng isang lungsod at bayan na makakabataan kung saan sa malayang paglinang ng sarili at ng kapwa, abot-kamay ang kaginhawaan para sa lahat.',
+    'Ang TK Council ang pangunahing namamahala sa mga gawaing administratibo ng organisasyon at nagsisiguro sa maayos na kalagayan ng mga miyembro. Sila ang nangangasiwa sa pagpaplano, pagsasagawa, at pagsusubaybay ng mga proyekto upang matiyak na natutupad ang layunin at adbokasiya ng Tara Kabataan. Bukod dito, binibigyan nila ng pansin ang kapakanan ng mga miyembro sa pamamagitan ng pagbibigay ng suporta at mga programa na nagpapalakas ng kanilang kakayahan at samahan bilang isang komunidad.',
+    'Itinataguyod ang abot-kamay at makataong serbisyong pangkalusugan para sa lahat sa pamamagitan ng paglaban sa pribatisasyon ng healthcare, pagtugon sa mga salik panlipunan na nakakaapekto sa kalusugan, at pagsasaayos sa kakulangan ng health workers at pasilidad.',
+    'Nangunguna sa panawagan para sa katarungang pangklima at pangangalaga sa kalikasan sa pamamagitan ng makatarungang paglipat sa sustenableng pamumuhay, paghahanda sa sakuna, at pagprotekta sa mga komunidad laban sa mapaminsalang proyekto tulad ng reclamation.',
+    'Isinusulong ang kabuuang pagkatuto at mapagpalayang edukasyon sa pamamagitan ng mga programang nakabatay sa laro, pagpapalalim ng kamalayang panlipunan, at pagtataguyod ng mabuting pamamahala.',
+    'Pinapalakas ang pambansang identidad at malikhaing kaisipan habang nilalabanan ang historikal na distorsyon sa pamamagitan ng sining bilang sandata ng paglaban at adbokasiya.',
+    'Pinapahalagahan ang pagkakapantay-pantay ng kasarian at inklusibong lipunan sa pamamagitan ng pagsusulong ng mga polisiya tulad ng SOGIESC Bill, Divorce Bill, at pagtatanggol sa karapatan ng kababaihan.',
+    '+639123456789',
+    'tarakabataan@gmail.com'
+);
+
+INSERT INTO tk_webapp.roles (role_name, role_description) VALUES
+('President', 'Oversees the entire organization, makes executive decisions, and ensures alignment with the vision and mission.'),
+('Partnerships', 'Establishes and maintains relationships with external organizations and stakeholders.'),
+('Research & Advocacy', 'Leads research efforts and drives advocacy campaigns based on data and community needs.'),
+('Finance', 'Manages organizational budgets, donations, and financial reporting.'),
+('Secretary', 'Handles official documentation, meeting minutes, schedules, and organizational correspondence.'),
+('Online Engagement', 'Manages social media presence and engages with the online community.'),
+('Programs & Events', 'Plans and coordinates events, workshops, and organizational activities.'),
+('Documentation', 'Captures and archives photos, videos, and records of all organizational activities.'),
+('Creatives', 'Designs visual content, branding materials, and multimedia outputs for the organization.'),
+('Internals', 'Ensures internal coordination, member welfare, and team-building initiatives.');
+
+INSERT INTO tk_webapp.users (user_name, user_image, user_email, password_hash, role_id) VALUES
+('Ferdinand Sanchez II', './src/assets/aboutpage/council/president.jpg', 'ferdinance@tkwebapp.com', SHA2('ferdinandpass', 256), 'roles-2025-000001'),
+('Marion Navarro', './src/assets/aboutpage/council/partnerships.jpg', 'marion@tkwebapp.com', SHA2('marionpass', 256), 'roles-2025-000002'),
+('Joshua Barbo', NULL, 'joshua@tkwebapp.com', SHA2('joshuapass', 256), 'roles-2025-000003'),
+('Mildred Collado', NULL, 'mildred@tkwebapp.com', SHA2('mildredpass', 256), 'roles-2025-000004'),
+('Eunice Santiago', NULL, 'eunice@tkwebapp.com', SHA2('eunicepass', 256), 'roles-2025-000005'),
+('Isaac Hernandez', NULL, 'isaac@tkwebapp.com', SHA2('isaacpass', 256), 'roles-2025-000006'),
+('Raf Ranin', './src/assets/aboutpage/council/pne.jpg', 'raf@tkwebapp.com', SHA2('rafpass', 256), 'roles-2025-000007'),
+('Chester Carreon', NULL, 'chester@tkwebapp.com', SHA2('chesterpass', 256), 'roles-2025-000008'),
+('Aaron Sumampong', NULL, 'aaron@tkwebapp.com', SHA2('aaronpass', 256), 'roles-2025-000009'),
+('Enrico Villegas', NULL, 'enrico@tkwebapp.com', SHA2('enricopass', 256), 'roles-2025-00000A');
+
+INSERT INTO tk_webapp.blogs (blog_image, blog_category, blog_title, blog_author_id, blog_content, blog_status) VALUES 
+(
+  '../src/assets/blogs-images/blogpic1.jpg', 
+  'KASARIAN', 
+  'Kasabay ng unang phase ng DigiCamp 2024, ang Tara Kabataan at Partido Manggagawa Kabataan ay naglunsad ng isang art workshop noong Nobyembre 24, 2024', 
+  NULL, 
+  'Ang PAP Bill ay mahalagang maisabatas dahil nagbibigay ito ng proteksyon para sa kabataan, kababaihan, at higit sa lahat, sa mga adolescent  mothers. 
+
+Ilan sa mga mahahalagang layunin nito ay: (1) labanan ang karahasan at diskriminasyon, lalo na sa mga kababaihan at adolescent mothers, (2) bigyan ng kontrol at impormasyon ang kabataan tungkol sa kanilang sekswalidad at katawan, at (3) pagbibigay ng akses sa mga kabataan, lalo na sa mga batang ina, ng mga social protection services gaya ng mental health services, RH services, philhealth coverage, homebased schooling, atbpa.
+Ngayong kapaskuhan, sama-sama nating panawagan: ibigay ang PAP Bill bilang regalo para sa ating kabataan! 
+Tara, mag-caroling para sa PAP Bill! 
+
+#YesToPAPBill
+#NoToVAWC
+#PassThePAPBillNow
+#TaraKabataan
+#TKKasarian', 
+   'PUBLISHED'
+),
+
+(
+  '../src/assets/blogs-images/blogpic2.jpg', 
+  'KASARIAN', 
+  'Bangon! Babae, Bangon!', 
+  NULL, 
+  'Ngayon, ipinagdiriwang natin ang Araw ng mga Kababaihan—isang araw ng pagkilala, paglaban, at pag-asa. Higit pa sa selebrasyon, ito ay isang paalala na ang bawat babae ay may karapatang lumaya, umunlad, at marinig.
+
+Bilang kabataan, kaisa kami sa patuloy na pagsusulong ng pagkakapantay-pantay, karapatan, at kalayaan ng bawat kababaihan at kabataan. Sama-sama nating ipaglaban ang isang makatarungan at pantay na lipunan!', 
+  'PUBLISHED'
+),
+(
+  '../src/assets/blogs-images/blogpic3.jpg', 
+  'KALIKASAN', 
+  'Digital Tools for Advocacy', 
+  NULL, 
+  'Mahilig ka bang magpost sa social media?
+
+Mayroong iba''t ibang social media platforms na pwede nating magamit sa tuwing may gusto tayong ipost online. Bukod pa rito, mas magiging engaging din ang ating mga posts kung ito ay may tiyak na paksa, maayos na presentasyon, at makabuluhang impormasyon na patok sa iyong target audience at hindi lamang basta-basta.
+
+Ilan lamang iyan sa mga ibinahagi ni Ken na isang Social Media Specialist sa kanyang paksa tungkol sa Digital Tools for Advocacy.
+At sa pamamagitan ng isang activity, nagbahagi ang bawat delegades ng kanilang mga pamamaraan bilang aplikasyon ng natutuhan sa kung paano mas magiging epektibo ang social media platforms sa advocacy na inilalayon ng kanilang organisasyon. 
+
+#DigiCamp2024
+#TaraKabataan', 
+  'PINNED'
+),
+(
+  '../src/assets/blogs-images/blogpic4.jpg', 
+  'KALIKASAN', 
+  'BAEyaniChallenge', 
+  NULL, 
+  'Sa ating #ThrowbackThursBAE entry, balikan natin ang ating paglaro, pagbahagi ng kwento, pagkanta’t sayaw at pagbigay ng regalo ng Tara Kabataan sa mga batang naapektuhan ng sunog sa Sta. Mesa. Ito ang napili naming proyekto para sa #BAEyaniChallenge dahil madalas ay nakakalimutan ang psychosocial support para sa mga naaapektuhan ng ganitong trahedya. Sa ating pagpapahalaga sa mental health lalo ng mga bata sa panahon ng sakuna, pinapalakas natin ang kanilang loob at pinapatibay ang kanilang pag-asa. Sa tulong nito, nawa’y sila ay magpatuloy at mabawasan ang kanilang pangamba sa kalagayan ng kanilang pamilya.
+
+Hindi lamang simpleng programa ang aming inihanda at nais linangin. Naging pagkakataon din itong aktibidad para matuto ang mga youth volunteers at magbahagi ng kanilang talento tulad ng pagbabahagi ng kwento, pagsayaw, pagkanta, at pagpapasaya. Sa tulong ng The Playhouse Project, nakapagbuo rin ang Tara Kabataan ng isang modyul na angkop sa pagtugon higit lalo sa oras ng sakuna para sa mga bata. Pinag-uusapan dito ang kanilang pangarap at pagkilala sa kanilang sarili.
+Naging matagumpay din ito sa tulong ng iba’t ibang volunteers, sponsors, at organisasyon sa komunidad tulad ng Sta. Elena Chapel - Nagtahan at Ina ng Bayan sa Sais.
+
+Kung papalarin, hindi lang namin ipagpapatuloy ang ganitong programa kundi payayabungin para magkaroon ng komprehensibo at malikhaing modyul ni Tara (karakter ng TK) na angkop sa mga pangangailan ng mga bata. Magsasagawa rin kami ng mga training sa mga volunteer upang magkaroon ng mas malalim na pagkaunawa’t kakayanan na makapagbigay ng psychosocial support sa mga bata, lalo kapag nakararanas ng trauma. Kung may sapat na pondo, maaari din kaming makabalik sa komunidad para patuloy ang ganitong programa at hindi isahan lang. Maaari din itong tungtungan para magkaroon pa ng iba’t ibang modyul para sa mga bata.
+Kasama kami sa pangarap ng mga bata na makabalik sa paglalaro’t pag-aaral para sa kanilang kalinangan at kaginhawaan.
+Kaya ano pa ang hinihintay niyo? Tara na Kabataan, Youth for Better Baseco, Young People’s Council PH makiisa na!
+
+#TaraKabataan
+#BAEyaniChallenge
+#CommunityFirst', 
+  'PINNED'
+),
+(
+  '../src/assets/blogs-images/blogpic5.jpg', 
+  'KULTURA', 
+  'ICYMI | DigiCamp 2024 Day 3 Session', 
+  NULL, 
+  'Bilang pagtatapos, binigyang pagkilala ang bawat participants na naging bahagi ng tatlong makabuluhang araw ng pag-aaral, pagbabahagi, at pakikiisa para sa ikabubuti ng kanilang mga organisasyon alinsunod sa tema na “DigiCamp 2024: Strategic Digital and Community Organizing.”
+
+Ang mga organisasyong B Y E Tondo, Google Developer Student Clubs PLM, Little Hands, at ang UP Pharmaceutical Association Student Council ay nabigyan ng pagkakataon upang matuto at magkaroon ng ibat ibang istratehiya na makatutulong sa pagpapaunlad ng kanilang mga organisasyon lulan ang mga proyekto''t adbokasiya na kanilang nilalayon para sa kanilang mga komunidad.
+
+#DigiCamp2024
+#TaraKabataan', 
+  'PINNED'
+),
+
+(
+  '../src/assets/blogs-images/blogpic6.jpg', 
+  'KULTURA', 
+  'Strategic Digital and Community Organizing', 
+  NULL, 
+  'Balikan natin ang matagumpay na pagsisimula ng ating Digicamp 2024!
+Matatandaan na naganap ang tatlong araw ng makabuluhang talakayan at gawain para sa Phase One ng Digicamp 2024 na may temang DigiCamp 2024: Strategic Digital and Community Organizing.
+
+Tinalakay dito ang Community-based organizing, Social Behavioral Change, and Digital Tools kung saan ibinahagi ang mga mabisang mga estratehiya maaring magamit ng mga organisasyon upang mas maging epektibo ang kanilang mga proyekto at adbokasiya.
+Hindi magiging posible ang makabuluhang diskursong ito kung wala ang mahalagang partisipasyon ng ating mga delegado mula sa mga organisasyon ng Building Youth Empowerment Tondo (B Y E Tondo), Google Developer Student Clubs PLM (GDSC PLM), Little Hands: Isko with UNICEF, at ang UP Pharmaceutical Association Student Council (UPPhA).
+
+Sila ang nagbigay buhay at lalim sa ating talakayan, at ang kanilang mga adbokasiya ay tiyak na magiging katuwang natin tungo sa layuning mapaunlad ang bawat komunidad.
+
+#DigiCamp2024 #TaraKabataan', 
+  'PUBLISHED'
+),
+(
+  '../src/assets/blogs-images/blogpic7.jpg', 
+  'KALUSUGAN', 
+  'TK KALUSUGAN: GINHAWA ESKWELA DAY 2', 
+  NULL, 
+  'Ginanap ang pangalawang araw ng Ginhawa Eskwela noong November 8 kasama ang Manila Science High School, MaSci ''99, at MSHS LIYAB. Sa Day 2 ay binalikan ang mga pinag-usapan tungkol sa peer support at paano ito ginagawa. Nabigyan din ng pagkakataon ang mga student facilitators na manguna sa group sharing kasama ang kanilang mga kamag-aral. Bago matapos ang programa ay nagsulat ang mga mag-aaral na dumalo tungkol sa kanilang mga natutuhan at mensahe para sa sarili. 
+
+Salamat sa ating mga kasama at mga mag-aaral na dumalo na silang bumuo sa programa na ito. 
+Tara, para sa pangangalaga ng lusog isip ng kabataan 
+
+#TaraKabataan
+#TKKalusugan', 
+  'PUBLISHED'
+),
+
+(
+  '../src/assets/blogs-images/blogpic8.jpg', 
+  'KALUSUGAN', 
+  'Tara sa National Launch ng Courage for Climate Campaign kasama ng Greenpeace Philippines!', 
+  NULL, 
+  'National Launch of the Courage for Climate Campaign! Join us as we launch a drive to gather 70,000 signatures—one for every Filipino impacted by extreme weather events since 1990—each one a show of support for the courageous Filipinos taking action against carbon majors.
+This is our stand against big polluters harming our climate and our future.
+
+Together, we can inspire more communities to rise up and demand change! Join the conversation and sign the petition to be a part of the movement >> act.gp/courage4climate
+
+#Courage4Climate #ClimateJusticeNow', 
+  'PUBLISHED'
+),
+(
+  '../src/assets/blogs-images/blogpic9.jpg', 
+  'KARUNUNGAN', 
+  'TK KARUNUNGAN: KAISA ANG TARA KABATAAN SA PAGSULONG NG NAGBABASANG BAYAN!', 
+  NULL, 
+  'Bilang miyembro ng National Alliance of Reading Advocates (NARA), tayo ay naging bahagi ng "NARA 1st Convention and Launching: Pamitinan ng Lingkod-Mambabasa" ngayong araw, November 23, Sabado, sa National Museum of Fine Arts, Manila City. Nagsama-sama ang iba''t ibang organisasyon at mga indibidwal sa buong bansa para isulong ang isang bayan na nagbabasa at nagkukuwento. Sa makulay na programang ito, nagbahagi ng iba''t ibang istratehiya ang mga organisasyon at indibidwal para makatulong sa pagsulong ng ating adbokasiya. 
+
+Nakasama rin natin si Mang Nanie ng Reading Club 2000, bilang panauhing pandangal ng kauna-unahang pagtitipon ng NARA. Sa kaniyang higit dalawang-dekadang pagsisinop, ang mga librong nagsimula sa limampu ay libo-libo na ngayon sa kaniyang aklatan sa La Paz, Makati City. Mula 2000, patuloy na tumutulong si Mang Nanie sa mga organisasyon at indibidwal na magbahagi pa ng mga libro, mula Makati hanggang Samar at iba pang panig ng bansa. Isa siyang patunay kung gaano kalaking hakbang ang pagmamalasakit sa pagkatuto ng kapwa upang makarating sa hangad ng kalinangan at kaginahawaan. 
+
+Tara, magbasa at matuto! 
+
+#TaraKabataan
+#TKKarunungan
+#AklatParaSaLahat', 
+  'PUBLISHED'
+),
+
+(
+  '../src/assets/blogs-images/blogpic10.jpg', 
+  'KARUNUNGAN',  
+  'SIGAW NG KABATAAN, EDSA HUWAG KALIMUTAN!', 
+  NULL, 
+  'Sa magkasunod na taon, hindi muling idineklara ng Pangulo ang araw na ito bilang holiday. Ipinapakita rito kung paano hayagang paunti-unting inaalis sa isipin ng mga bagong henerasyon ang diwa ng EDSA People Power. Ano na lamang ang mangyayari kung ang mga susunod na kabataan ay walang alam sa nakaraan ng kaniyang bayan?
+
+Ang mga kabataan ay naging parte sa pagpapatalsik sa diktador noong Batas Militar. Bilang kabataan ngayon, maging isa sa magpapatuloy ng diwa ng kasaysayang nagbigay sa atin ng demokrasya. Sa paggunita ng ika-39 anibersaryo ng EDSA Revolution, tumindig at sama-samang lumaban. Sa panahong paunti-unting dinudungisan at binabago ang nakaraan, mas kailangan ang boses ng mga kabataan.
+
+Huwag nating hayaang mawala sa isipan ng mga tao sina Liliosa Hilao, Edgar Jopson, Archimedes Trajano, Ma. Leticia Pascual, Ferdie Arceo, at Ronald Jan Quimpo. Ilan ito sa mga kabataang kinulong, dinakip, at inalisan ng karapatang mabuhay sa ilalim ng diktaduryang Marcos dahil sa pagboses at paglaban sa karapataan ng mga Pilipino. Hindi lamang ang buhay nila ang natapos nang maaga, kung hindi pati na rin ang pangarap nila para sa kanilang sarili, pamilya, kaibigan, at sa bayan. Ang demokrasya at karapatang natatamasa natin ngayon ay dulot ng walang takot na pakikipaglaban ng mga kabataang ito.
+
+Hindi dapat tayo magbulag-bulagan sa mga sakripisyo ng mga taong nakipaglaban noong panahong walang natatamasang karapatan ang mga Pilipino at mahirap ang bumoses laban sa gobyerno. Utang ng mga Pilipino sa nakaraan ang demokrasyang mayroon tayo ngayon. Kaya ngayon ang panahon para tayong mga kabataan naman ang makipaglaban at maging boses para ang diwa ng EDSA ay magpatuloy.', 
+  'PUBLISHED'
+);
+
+INSERT INTO tk_webapp.events (
+  event_image,
+  event_category,
+  event_title,
+  event_date,
+  event_start_time,
+  event_end_time,
+  event_venue,
+  event_content,
+  event_speakers,
+  event_going,
+  event_status
+) VALUES
+('./src/assets/blogs-images/blogpic1.jpg', 'Kalikasan', 'Earth Hour 2024', '2024-03-23', '20:30:00', '21:30:00', 'National Museum of Natural History, Manila', 'Join us for Earth Hour 2024! 🌍✨ Let’s unite in a powerful gesture for our planet.', 'To be announced', '167', 'UPCOMING'),
+
+('./src/assets/blogs-images/blogpic2.jpg', 'Kalusugan', 'Health is Wealth Fair', '2024-04-12', '09:00:00', '15:00:00', 'Barangay Multipurpose Hall', 'Free checkups, health kits, and seminars on wellness.', 'Dr. Marie Dela Cruz', '94', 'UPCOMING'),
+
+('./src/assets/blogs-images/blogpic3.jpg', 'Karunungan', 'Reading Literacy Camp', '2024-05-05', '08:00:00', '17:00:00', 'Local Library, Quezon City', 'A camp for young readers to boost their literacy and creativity.', 'Prof. Jay Sarmiento', '122', 'UPCOMING'),
+
+('./src/assets/blogs-images/blogpic4.jpg', 'Kultura', 'Buwan ng Wika Celebration', '2024-08-19', '10:00:00', '17:00:00', 'Philippine Cultural Center', 'A celebration of Filipino language and arts featuring local performers.', 'Artists from PUP Manila', '311', 'UPCOMING'),
+
+('./src/assets/blogs-images/blogpic5.jpg', 'Kasarian', 'SOGIESC Awareness Forum', '2024-06-30', '13:00:00', '16:00:00', 'UP Diliman CS Auditorium', 'An open forum on gender equality and SOGIESC policy.', 'Atty. Alex Bernardo', '150', 'UPCOMING'),
+
+('./src/assets/blogs-images/blogpic6.jpg', 'Kalusugan', 'Mental Health Matters', '2024-10-10', '14:00:00', '17:00:00', 'Online (Zoom)', 'Mental health talks and safe space discussions for youth.', 'Dr. Rica Santos', '203', 'UPCOMING'),
+
+('./src/assets/blogs-images/blogpic7.jpg', 'Kalikasan', 'Coastal Cleanup Drive', '2024-07-20', '06:00:00', '10:00:00', 'Manila Bay Coastline', 'Volunteer beach cleanup for marine conservation.', 'GreenPH Volunteers', '321', 'UPCOMING'),
+
+('./src/assets/blogs-images/blogpic8.jpg', 'Karunungan', 'STEM for Kids Workshop', '2024-09-05', '08:00:00', '12:00:00', 'Makati Science HS Gym', 'Fun experiments and coding games for children ages 8-12.', 'Engr. Louie Robles', '98', 'UPCOMING'),
+
+('./src/assets/blogs-images/blogpic9.jpg', 'Kultura', 'Sayaw sa Kalye Dance Fest', '2027-11-15', '15:00:00', '20:00:00', 'Roxas Blvd Open Grounds', 'Street dance battles featuring folk and modern styles.', 'Various Dance Troupes', '276', 'UPCOMING'),
+
+('./src/assets/blogs-images/blogpic10.jpg', 'Kasarian', 'Women in Leadership Summit', '2027-12-01', '09:00:00', '17:00:00', 'Hotel H2O Convention Hall', 'Empowering women leaders and entrepreneurs.', 'Sen. Lisa Mercado', '187', 'UPCOMING');
+
+INSERT INTO tk_webapp.partnerships (partner_name, partner_dec, partner_contact_email, partner_phone_number) VALUES
+('TechCorp', 'Technology Partner', 'techcorp@example.com', '123-456-7890'),
+('EduLink', 'Education Outreach Partner', 'edulink@example.com', '987-654-3210');
+
+INSERT INTO tk_webapp.memberships (member_id, membership_type, membership_status, created_at) VALUES
+(NULL, 'Basic', 'ACTIVE', NOW()),
+(NULL, 'Premium', 'PENDING', NOW());
+
+INSERT INTO tk_webapp.donors (donor_name, donor_contact_email, donor_phone_number) VALUES
+('Jane Donor', 'jane@example.com', '111-222-3333'),
+('Mike Donor', 'mike@example.com', '444-555-6666');
+
+INSERT INTO tk_webapp.recipients (recipient_name, recipient_contact_email, recipient_phone_number) VALUES
+('Hope Center', 'hope@center.org', '777-888-9999'),
+('Food Aid', 'food@aid.org', '000-111-2222');
+
+INSERT INTO tk_webapp.donations (donor_id, recipient_id, amount, message, created_at) VALUES
+(NULL, NULL, 100.00, 'Keep up the good work!', NOW()),
+(NULL, NULL, 250.00, 'Donation for relief', NOW());
+
+INSERT INTO tk_webapp.finance_sources (source_name, source_description) VALUES
+('Gov Grant', 'Government funded'),
+('Private Donor', 'Anonymous contribution');
+
+INSERT INTO tk_webapp.finance (source_id, amount, transaction_date) VALUES
+(NULL, 1500.00, NOW()),
+(NULL, 2300.00, NOW());
+
+INSERT INTO tk_webapp.transactions (finance_id, transaction_type, amount, transaction_date) VALUES
+(NULL, 'credit', 500.00, NOW()),
+(NULL, 'debit', 300.00, NOW());
+
+INSERT INTO tk_webapp.monetary_donations (donor_id, recipient_id, amount, transaction_id, created_at) VALUES
+(NULL, NULL, 200.00, NULL, NOW()),
+(NULL, NULL, 450.00, NULL, NOW());
+
+INSERT INTO tk_webapp.item_donations (donor_id, recipient_id, item_name, item_quantity, transaction_id, created_at) VALUES
+(NULL, NULL, 'Blankets', 100, NULL, NOW()),
+(NULL, NULL, 'Food Packs', 50, NULL, NOW());
+
+INSERT INTO tk_webapp.audit_logs (user_id, action, timestamp) VALUES
+(NULL, 'Created test user', NOW()),
+(NULL, 'Generated backup', NOW());
+
+INSERT INTO tk_webapp.contact_messages (name, email, message, created_at) VALUES
+('John Visitor', 'john@example.com', 'Just checking in.', NOW()),
+('Lucy Contact', 'lucy@domain.com', 'I love this project!', NOW());
+
+INSERT INTO tk_webapp.chatbot_faqs (question, answer) VALUES
+('How to donate?', 'Click the donate button and follow the instructions.'),
+('Can I volunteer?', 'Yes, just sign up using the membership form.');
+
+INSERT INTO tk_webapp.members (user_id, role_id, join_date) VALUES
+(NULL, NULL, NOW()),
+(NULL, NULL, NOW());

@@ -1,0 +1,142 @@
+-- VIEWS
+
+-- Users with Role Name
+CREATE OR REPLACE VIEW view_users AS
+SELECT 
+    u.user_id,
+    u.user_name,
+    u.user_email,
+    r.role_name,
+    r.role_description
+FROM tk_webapp.users u
+LEFT JOIN tk_webapp.roles r ON u.role_id = r.role_id;
+
+-- Blogs with Author Info
+CREATE OR REPLACE VIEW view_blogs AS
+SELECT 
+    b.blog_id,
+    b.blog_image,
+    b.blog_category,
+    b.blog_title,
+    b.created_at,
+    b.blog_status,
+    u.user_name AS author_name,
+    b.blog_content
+FROM tk_webapp.blogs b
+LEFT JOIN tk_webapp.users u ON b.blog_author_id = u.user_id;
+
+-- Events View
+CREATE OR REPLACE VIEW view_events AS
+SELECT * FROM tk_webapp.events;
+
+-- Partnerships View
+CREATE OR REPLACE VIEW view_partnerships AS
+SELECT * FROM tk_webapp.partnerships;
+
+-- Memberships with User Info
+CREATE OR REPLACE VIEW view_memberships AS
+SELECT 
+    m.membership_id,
+    u.user_name,
+    m.membership_type,
+    m.status,
+    m.created_at
+FROM tk_webapp.memberships m
+LEFT JOIN tk_webapp.users u ON m.member_id = u.user_id;
+
+-- Donors View
+CREATE OR REPLACE VIEW view_donors AS
+SELECT * FROM tk_webapp.donors;
+
+-- Recipients View
+CREATE OR REPLACE VIEW view_recipients AS
+SELECT * FROM tk_webapp.recipients;
+
+-- Donations with Donor and Recipient Info
+CREATE OR REPLACE VIEW view_donations AS
+SELECT 
+    d.donation_id,
+    donors.donor_name,
+    recipients.recipient_name,
+    d.amount,
+    d.message,
+    d.created_at
+FROM tk_webapp.donations d
+LEFT JOIN tk_webapp.donors donors ON d.donor_id = donors.donor_id
+LEFT JOIN tk_webapp.recipients recipients ON d.recipient_id = recipients.recipient_id;
+
+-- Finance Sources View
+CREATE OR REPLACE VIEW view_finance_sources AS
+SELECT * FROM tk_webapp.finance_sources;
+
+-- Finance View with Source Name
+CREATE OR REPLACE VIEW view_finance AS
+SELECT 
+    f.finance_id,
+    fs.source_name,
+    f.amount,
+    f.transaction_date
+FROM tk_webapp.finance f
+LEFT JOIN tk_webapp.finance_sources fs ON f.source_id = fs.source_id;
+
+-- Transactions with Finance Source
+CREATE OR REPLACE VIEW view_transactions AS
+SELECT 
+    t.transaction_id,
+    fs.source_name,
+    t.transaction_type,
+    t.amount,
+    t.transaction_date
+FROM tk_webapp.transactions t
+LEFT JOIN tk_webapp.finance f ON t.finance_id = f.finance_id
+LEFT JOIN tk_webapp.finance_sources fs ON f.source_id = fs.source_id;
+
+-- Monetary Donations View with Donor and Transaction Info
+CREATE OR REPLACE VIEW view_monetary_donations AS
+SELECT 
+    md.monetary_donation_id,
+    donors.donor_name,
+    recipients.recipient_name,
+    md.amount,
+    t.transaction_type,
+    md.created_at
+FROM tk_webapp.monetary_donations md
+LEFT JOIN tk_webapp.donors donors ON md.donor_id = donors.donor_id
+LEFT JOIN tk_webapp.recipients recipients ON md.recipient_id = recipients.recipient_id
+LEFT JOIN tk_webapp.transactions t ON md.transaction_id = t.transaction_id;
+
+-- Item Donations View
+CREATE OR REPLACE VIEW view_item_donations AS
+SELECT 
+    id.item_donation_id,
+    donors.donor_name,
+    recipients.recipient_name,
+    id.item_name,
+    id.item_quantity,
+    t.transaction_type,
+    id.created_at
+FROM tk_webapp.item_donations id
+LEFT JOIN tk_webapp.donors donors ON id.donor_id = donors.donor_id
+LEFT JOIN tk_webapp.recipients recipients ON id.recipient_id = recipients.recipient_id
+LEFT JOIN tk_webapp.transactions t ON id.transaction_id = t.transaction_id;
+
+-- Audit Logs with User Info
+CREATE OR REPLACE VIEW view_audit_logs AS
+SELECT 
+    a.log_id,
+    u.user_name,
+    a.action,
+    a.timestamp
+FROM tk_webapp.audit_logs a
+LEFT JOIN tk_webapp.users u ON a.user_id = u.user_id;
+
+-- Members View with Role and User Info
+CREATE OR REPLACE VIEW view_members AS
+SELECT 
+    m.member_id,
+    u.user_name,
+    r.role_name,
+    m.join_date
+FROM tk_webapp.members m
+LEFT JOIN tk_webapp.users u ON m.user_id = u.user_id
+LEFT JOIN tk_webapp.roles r ON m.role_id = r.role_id;
