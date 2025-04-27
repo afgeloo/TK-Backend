@@ -15,7 +15,6 @@ $status = isset($_GET['status']) ? strtoupper($_GET['status']) : 'ALL';
 $response = [];
 $today = date('Y-m-d');
 
-// ✅ Step 1: Assign statuses to rows with empty/null event_status
 $autoAssignQuery = "UPDATE tk_webapp.events
     SET event_status = CASE
         WHEN event_date < ? THEN 'COMPLETED'
@@ -27,7 +26,6 @@ $autoAssignStmt->bind_param("s", $today);
 $autoAssignStmt->execute();
 $autoAssignStmt->close();
 
-// ✅ Step 2: Ensure existing statuses are updated properly
 $updateDoneQuery = "UPDATE tk_webapp.events 
     SET event_status = 'COMPLETED' 
     WHERE UPPER(event_status) = 'UPCOMING' AND event_date < ?";

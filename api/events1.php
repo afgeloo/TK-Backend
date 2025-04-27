@@ -91,7 +91,6 @@ if ($pinnedResult) {
     exit;
 }
 
-// Fetch all or filtered events
 if ($category === 'ALL') {
     $query = "SELECT 
                 event_id,
