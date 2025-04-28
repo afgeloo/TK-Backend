@@ -1,9 +1,3 @@
--- SCHEMA
-CREATE SCHEMA tk_webapp;
-
--- RUN tk_webapp
-USE tk_webapp;
-
 -- TABLES
 CREATE TABLE tk_webapp.aboutus(
     aboutus_id VARCHAR(150) PRIMARY KEY,
@@ -21,7 +15,10 @@ CREATE TABLE tk_webapp.aboutus(
     adv_kultura TEXT,
     adv_kasarian TEXT,
     contact_no VARCHAR(20),
-    about_email VARCHAR(150)
+    about_email VARCHAR(150),
+    facebook VARCHAR(255),
+    instagram VARCHAR(255),
+    address VARCHAR(255)
 );
 
 CREATE TABLE tk_webapp.roles (
@@ -79,102 +76,12 @@ CREATE TABLE tk_webapp.partnerships (
     partner_phone_number VARCHAR(50)
 );
 
-CREATE TABLE tk_webapp.memberships (
-    membership_id VARCHAR(150) PRIMARY KEY,
-    member_id VARCHAR(150),
-    membership_type VARCHAR(100),
-    membership_status ENUM('ACTIVE', 'PENDING', 'INACTIVE', 'REJECTED', 'TERMINATED'),
-    created_at TIMESTAMP,
-    FOREIGN KEY (member_id) REFERENCES users(user_id)
-);
-
-CREATE TABLE tk_webapp.donors (
-    donor_id VARCHAR(150) PRIMARY KEY,
-    donor_name VARCHAR(255),
-    donor_contact_email VARCHAR(255) UNIQUE,
-    donor_phone_number VARCHAR(50)
-);
-
-CREATE TABLE tk_webapp.recipients (
-    recipient_id VARCHAR(150) PRIMARY KEY,
-    recipient_name VARCHAR(255),
-    recipient_contact_email VARCHAR(255) UNIQUE,
-    recipient_phone_number VARCHAR(50)
-);
-
-CREATE TABLE tk_webapp.donations (
-    donation_id VARCHAR(150) PRIMARY KEY,
-    donor_id VARCHAR(150),
-    recipient_id VARCHAR(150),
-    amount DECIMAL(10,2),
-    message TEXT,
-    created_at TIMESTAMP,
-    FOREIGN KEY (donor_id) REFERENCES donors(donor_id),
-    FOREIGN KEY (recipient_id) REFERENCES recipients(recipient_id)
-);
-
-CREATE TABLE tk_webapp.finance_sources (
-    source_id VARCHAR(150) PRIMARY KEY,
-    source_name VARCHAR(255),
-    source_description TEXT
-);
-
-CREATE TABLE tk_webapp.finance (
-    finance_id VARCHAR(150) PRIMARY KEY,
-    source_id VARCHAR(150),
-    amount DECIMAL(10,2),
-    transaction_date TIMESTAMP,
-    FOREIGN KEY (source_id) REFERENCES finance_sources(source_id)
-);
-
-CREATE TABLE tk_webapp.transactions (
-    transaction_id VARCHAR(150) PRIMARY KEY,
-    finance_id VARCHAR(150),
-    transaction_type VARCHAR(100),
-    amount DECIMAL(10,2),
-    transaction_date TIMESTAMP,
-    FOREIGN KEY (finance_id) REFERENCES finance(finance_id)
-);
-
-CREATE TABLE tk_webapp.monetary_donations (
-    monetary_donation_id VARCHAR(150) PRIMARY KEY,
-    donor_id VARCHAR(150),
-    recipient_id VARCHAR(150),
-    amount DECIMAL(10,2),
-    transaction_id VARCHAR(150),
-    created_at TIMESTAMP,
-    FOREIGN KEY (donor_id) REFERENCES donors(donor_id),
-    FOREIGN KEY (recipient_id) REFERENCES recipients(recipient_id),
-    FOREIGN KEY (transaction_id) REFERENCES transactions(transaction_id)
-);
-
-CREATE TABLE tk_webapp.item_donations (
-    item_donation_id VARCHAR(150) PRIMARY KEY,
-    donor_id VARCHAR(150),
-    recipient_id VARCHAR(150),
-    item_name VARCHAR(255),
-    item_quantity INT,
-    transaction_id VARCHAR(150),
-    created_at TIMESTAMP,
-    FOREIGN KEY (donor_id) REFERENCES donors(donor_id),
-    FOREIGN KEY (recipient_id) REFERENCES recipients(recipient_id),
-    FOREIGN KEY (transaction_id) REFERENCES transactions(transaction_id)
-);
-
 CREATE TABLE tk_webapp.audit_logs (
     log_id VARCHAR(150) PRIMARY KEY,
     user_id VARCHAR(150),
     action VARCHAR(255),
     timestamp TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
-
-CREATE TABLE tk_webapp.contact_messages (
-    message_id VARCHAR(150) PRIMARY KEY,
-    name VARCHAR(255),
-    email VARCHAR(255),
-    message TEXT,
-    created_at TIMESTAMP
 );
 
 CREATE TABLE tk_webapp.chatbot_faqs (
@@ -216,47 +123,7 @@ CREATE TABLE tk_webapp.partnership_id_counter (
     id INT AUTO_INCREMENT PRIMARY KEY
 );
 
-CREATE TABLE tk_webapp.membership_id_counter (
-    id INT AUTO_INCREMENT PRIMARY KEY
-);
-
-CREATE TABLE tk_webapp.donor_id_counter (
-    id INT AUTO_INCREMENT PRIMARY KEY
-);
-
-CREATE TABLE tk_webapp.recipient_id_counter (
-    id INT AUTO_INCREMENT PRIMARY KEY
-);
-
-CREATE TABLE tk_webapp.donation_id_counter (
-    id INT AUTO_INCREMENT PRIMARY KEY
-);
-
-CREATE TABLE tk_webapp.finance_source_id_counter (
-    id INT AUTO_INCREMENT PRIMARY KEY
-);
-
-CREATE TABLE tk_webapp.finance_id_counter (
-    id INT AUTO_INCREMENT PRIMARY KEY
-);
-
-CREATE TABLE tk_webapp.transaction_id_counter (
-    id INT AUTO_INCREMENT PRIMARY KEY
-);
-
-CREATE TABLE tk_webapp.monetary_donation_id_counter (
-    id INT AUTO_INCREMENT PRIMARY KEY
-);
-
-CREATE TABLE tk_webapp.item_donation_id_counter (
-    id INT AUTO_INCREMENT PRIMARY KEY
-);
-
 CREATE TABLE tk_webapp.audit_log_id_counter (
-    id INT AUTO_INCREMENT PRIMARY KEY
-);
-
-CREATE TABLE tk_webapp.contact_message_id_counter (
     id INT AUTO_INCREMENT PRIMARY KEY
 );
 
@@ -271,11 +138,11 @@ CREATE TABLE tk_webapp.member_id_counter (
 -- FUNCTIONS
 DELIMITER $$
 
-CREATE FUNCTION int_to_base62(n INT) RETURNS VARCHAR(10)
+CREATE FUNCTION int_to_base36(n INT) RETURNS VARCHAR(10)
 DETERMINISTIC
 BEGIN
-    DECLARE chars VARCHAR(62) DEFAULT '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    DECLARE base INT DEFAULT 62;
+    DECLARE chars VARCHAR(36) DEFAULT '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'; -- ONLY 0-9, A-Z
+    DECLARE base INT DEFAULT 36;
     DECLARE result VARCHAR(10) DEFAULT '';
     DECLARE remainder INT;
 
@@ -306,7 +173,7 @@ BEGIN
     DECLARE base62_id VARCHAR(6);
     INSERT INTO tk_webapp.aboutus_id_counter VALUES (NULL);
     SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
+    SET base62_id = int_to_base36(next_id);
     IF NEW.aboutus_id IS NULL OR NEW.aboutus_id = '' THEN
         SET NEW.aboutus_id = CONCAT('roles-', YEAR(CURRENT_DATE), '-', base62_id);
     END IF;
@@ -323,7 +190,7 @@ BEGIN
     DECLARE base62_id VARCHAR(6);
     INSERT INTO tk_webapp.role_id_counter VALUES (NULL);
     SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
+    SET base62_id = int_to_base36(next_id);
     IF NEW.role_id IS NULL OR NEW.role_id = '' THEN
         SET NEW.role_id = CONCAT('roles-', YEAR(CURRENT_DATE), '-', base62_id);
     END IF;
@@ -340,7 +207,7 @@ BEGIN
     DECLARE base62_id VARCHAR(6);
     INSERT INTO tk_webapp.user_id_counter VALUES (NULL);
     SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
+    SET base62_id = int_to_base36(next_id);
     IF NEW.user_id IS NULL OR NEW.user_id = '' THEN
         SET NEW.user_id = CONCAT('users-', YEAR(CURRENT_DATE), '-', base62_id);
     END IF;
@@ -357,7 +224,7 @@ BEGIN
     DECLARE base62_id VARCHAR(6);
     INSERT INTO tk_webapp.blog_id_counter VALUES (NULL);
     SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
+    SET base62_id = int_to_base36(next_id);
     IF NEW.blog_id IS NULL OR NEW.blog_id = '' THEN
         SET NEW.blog_id = CONCAT('blogs-', YEAR(CURRENT_DATE), '-', base62_id);
     END IF;
@@ -374,7 +241,7 @@ BEGIN
     DECLARE base62_id VARCHAR(6);
     INSERT INTO tk_webapp.event_id_counter VALUES (NULL);
     SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
+    SET base62_id = int_to_base36(next_id);
     IF NEW.event_id IS NULL OR NEW.event_id = '' THEN
         SET NEW.event_id = CONCAT('events-', YEAR(CURRENT_DATE), '-', base62_id);
     END IF;
@@ -391,196 +258,9 @@ BEGIN
     DECLARE base62_id VARCHAR(6);
     INSERT INTO tk_webapp.partnership_id_counter VALUES (NULL);
     SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
+    SET base62_id = int_to_base36(next_id);
     IF NEW.partner_id IS NULL OR NEW.partner_id = '' THEN
         SET NEW.partner_id = CONCAT('partner-', YEAR(CURRENT_DATE), '-', base62_id);
-    END IF;
-END$$
-DELIMITER ;
-
--- MEMBERSHIPS TRIGGER
-DELIMITER $$
-CREATE TRIGGER before_insert_memberships
-BEFORE INSERT ON tk_webapp.memberships
-FOR EACH ROW
-BEGIN
-    DECLARE next_id INT;
-    DECLARE base62_id VARCHAR(6);
-    INSERT INTO tk_webapp.membership_id_counter VALUES (NULL);
-    SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
-    IF NEW.membership_id IS NULL OR NEW.membership_id = '' THEN
-        SET NEW.membership_id = CONCAT('membership-', YEAR(CURRENT_DATE), '-', base62_id);
-    END IF;
-END$$
-DELIMITER ;
-
--- DONORS TRIGGER
-DELIMITER $$
-CREATE TRIGGER before_insert_donors
-BEFORE INSERT ON tk_webapp.donors
-FOR EACH ROW
-BEGIN
-    DECLARE next_id INT;
-    DECLARE base62_id VARCHAR(6);
-    INSERT INTO tk_webapp.donor_id_counter VALUES (NULL);
-    SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
-    IF NEW.donor_id IS NULL OR NEW.donor_id = '' THEN
-        SET NEW.donor_id = CONCAT('donor-', YEAR(CURRENT_DATE), '-', base62_id);
-    END IF;
-END$$
-DELIMITER ;
-
--- RECIPIENTS TRIGGER
-DELIMITER $$
-CREATE TRIGGER before_insert_recipients
-BEFORE INSERT ON tk_webapp.recipients
-FOR EACH ROW
-BEGIN
-    DECLARE next_id INT;
-    DECLARE base62_id VARCHAR(6);
-    INSERT INTO tk_webapp.recipient_id_counter VALUES (NULL);
-    SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
-    IF NEW.recipient_id IS NULL OR NEW.recipient_id = '' THEN
-        SET NEW.recipient_id = CONCAT('recipient-', YEAR(CURRENT_DATE), '-', base62_id);
-    END IF;
-END$$
-DELIMITER ;
-
--- DONATIONS TRIGGER
-DELIMITER $$
-CREATE TRIGGER before_insert_donations
-BEFORE INSERT ON tk_webapp.donations
-FOR EACH ROW
-BEGIN
-    DECLARE next_id INT;
-    DECLARE base62_id VARCHAR(6);
-    INSERT INTO tk_webapp.donation_id_counter VALUES (NULL);
-    SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
-    IF NEW.donation_id IS NULL OR NEW.donation_id = '' THEN
-        SET NEW.donation_id = CONCAT('donation-', YEAR(CURRENT_DATE), '-', base62_id);
-    END IF;
-END$$
-DELIMITER ;
-
--- FINANCE SOURCES TRIGGER
-DELIMITER $$
-CREATE TRIGGER before_insert_finance_sources
-BEFORE INSERT ON tk_webapp.finance_sources
-FOR EACH ROW
-BEGIN
-    DECLARE next_id INT;
-    DECLARE base62_id VARCHAR(6);
-    INSERT INTO tk_webapp.finance_source_id_counter VALUES (NULL);
-    SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
-    IF NEW.source_id IS NULL OR NEW.source_id = '' THEN
-        SET NEW.source_id = CONCAT('source-', YEAR(CURRENT_DATE), '-', base62_id);
-    END IF;
-END$$
-DELIMITER ;
-
--- FINANCE TRIGGER
-DELIMITER $$
-CREATE TRIGGER before_insert_finance
-BEFORE INSERT ON tk_webapp.finance
-FOR EACH ROW
-BEGIN
-    DECLARE next_id INT;
-    DECLARE base62_id VARCHAR(6);
-    INSERT INTO tk_webapp.finance_id_counter VALUES (NULL);
-    SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
-    IF NEW.finance_id IS NULL OR NEW.finance_id = '' THEN
-        SET NEW.finance_id = CONCAT('finance-', YEAR(CURRENT_DATE), '-', base62_id);
-    END IF;
-END$$
-DELIMITER ;
-
--- TRANSACTIONS TRIGGER
-DELIMITER $$
-CREATE TRIGGER before_insert_transactions
-BEFORE INSERT ON tk_webapp.transactions
-FOR EACH ROW
-BEGIN
-    DECLARE next_id INT;
-    DECLARE base62_id VARCHAR(6);
-    INSERT INTO tk_webapp.transaction_id_counter VALUES (NULL);
-    SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
-    IF NEW.transaction_id IS NULL OR NEW.transaction_id = '' THEN
-        SET NEW.transaction_id = CONCAT('txn-', YEAR(CURRENT_DATE), '-', base62_id);
-    END IF;
-END$$
-DELIMITER ;
-
--- MONETARY_DONATIONS TRIGGER
-DELIMITER $$
-CREATE TRIGGER before_insert_monetary_donations
-BEFORE INSERT ON tk_webapp.monetary_donations
-FOR EACH ROW
-BEGIN
-    DECLARE next_id INT;
-    DECLARE base62_id VARCHAR(6);
-    INSERT INTO tk_webapp.monetary_donation_id_counter VALUES (NULL);
-    SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
-    IF NEW.monetary_donation_id IS NULL OR NEW.monetary_donation_id = '' THEN
-        SET NEW.monetary_donation_id = CONCAT('monetary-', YEAR(CURRENT_DATE), '-', base62_id);
-    END IF;
-END$$
-DELIMITER ;
-
--- ITEM_DONATIONS TRIGGER
-DELIMITER $$
-CREATE TRIGGER before_insert_item_donations
-BEFORE INSERT ON tk_webapp.item_donations
-FOR EACH ROW
-BEGIN
-    DECLARE next_id INT;
-    DECLARE base62_id VARCHAR(6);
-    INSERT INTO tk_webapp.item_donation_id_counter VALUES (NULL);
-    SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
-    IF NEW.item_donation_id IS NULL OR NEW.item_donation_id = '' THEN
-        SET NEW.item_donation_id = CONCAT('item-', YEAR(CURRENT_DATE), '-', base62_id);
-    END IF;
-END$$
-DELIMITER ;
-
--- AUDIT LOGS TRIGGER
-DELIMITER $$
-CREATE TRIGGER before_insert_audit_logs
-BEFORE INSERT ON tk_webapp.audit_logs
-FOR EACH ROW
-BEGIN
-    DECLARE next_id INT;
-    DECLARE base62_id VARCHAR(6);
-    INSERT INTO tk_webapp.audit_log_id_counter VALUES (NULL);
-    SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
-    IF NEW.log_id IS NULL OR NEW.log_id = '' THEN
-        SET NEW.log_id = CONCAT('log-', YEAR(CURRENT_DATE), '-', base62_id);
-    END IF;
-END$$
-DELIMITER ;
-
--- CONTACT MESSAGES TRIGGER
-DELIMITER $$
-CREATE TRIGGER before_insert_contact_messages
-BEFORE INSERT ON tk_webapp.contact_messages
-FOR EACH ROW
-BEGIN
-    DECLARE next_id INT;
-    DECLARE base62_id VARCHAR(6);
-    INSERT INTO tk_webapp.contact_message_id_counter VALUES (NULL);
-    SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
-    IF NEW.message_id IS NULL OR NEW.message_id = '' THEN
-        SET NEW.message_id = CONCAT('contact-', YEAR(CURRENT_DATE), '-', base62_id);
     END IF;
 END$$
 DELIMITER ;
@@ -595,7 +275,7 @@ BEGIN
     DECLARE base62_id VARCHAR(6);
     INSERT INTO tk_webapp.chatbot_faq_id_counter VALUES (NULL);
     SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
+    SET base62_id = int_to_base36(next_id);
     IF NEW.faq_id IS NULL OR NEW.faq_id = '' THEN
         SET NEW.faq_id = CONCAT('faq-', YEAR(CURRENT_DATE), '-', base62_id);
     END IF;
@@ -612,7 +292,7 @@ BEGIN
     DECLARE base62_id VARCHAR(6);
     INSERT INTO tk_webapp.member_id_counter VALUES (NULL);
     SET next_id = LAST_INSERT_ID();
-    SET base62_id = int_to_base62(next_id);
+    SET base62_id = int_to_base36(next_id);
     IF NEW.member_id IS NULL OR NEW.member_id = '' THEN
         SET NEW.member_id = CONCAT('member-', YEAR(CURRENT_DATE), '-', base62_id);
     END IF;
