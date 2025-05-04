@@ -50,6 +50,14 @@ CREATE TABLE tk_webapp.blogs (
     FOREIGN KEY (blog_author_id) REFERENCES users(user_id)
 );
 
+CREATE TABLE tk_webapp.blog_images (
+    blog_image_id VARCHAR(150) PRIMARY KEY,
+    blog_id VARCHAR(150),
+    image_url VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (blog_id) REFERENCES tk_webapp.blogs(blog_id) ON DELETE CASCADE
+);
+
 CREATE TABLE tk_webapp.events (
     event_id VARCHAR(150) PRIMARY KEY, --
     event_image VARCHAR(255),
@@ -112,6 +120,10 @@ CREATE TABLE tk_webapp.user_id_counter (
 );
 
 CREATE TABLE tk_webapp.blog_id_counter (
+    id INT AUTO_INCREMENT PRIMARY KEY
+);
+
+CREATE TABLE tk_webapp.blog_image_id_counter (
     id INT AUTO_INCREMENT PRIMARY KEY
 );
 
@@ -229,6 +241,27 @@ BEGIN
         SET NEW.blog_id = CONCAT('blogs-', YEAR(CURRENT_DATE), '-', base62_id);
     END IF;
 END$$
+DELIMITER ;
+
+-- BLOGS IMAGES TRIGGER
+DELIMITER $$
+
+CREATE TRIGGER before_insert_blog_images
+BEFORE INSERT ON tk_webapp.blog_images
+FOR EACH ROW
+BEGIN
+    DECLARE next_id INT;
+    DECLARE base62_id VARCHAR(6);
+    
+    INSERT INTO tk_webapp.blog_image_id_counter VALUES (NULL);
+    SET next_id = LAST_INSERT_ID();
+    SET base62_id = int_to_base36(next_id);
+    
+    IF NEW.blog_image_id IS NULL OR NEW.blog_image_id = '' THEN
+        SET NEW.blog_image_id = CONCAT('blogimg-', YEAR(CURRENT_DATE), '-', base62_id);
+    END IF;
+END$$
+
 DELIMITER ;
 
 -- EVENTS TRIGGER

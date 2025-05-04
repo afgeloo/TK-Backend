@@ -58,44 +58,71 @@ if (isset($data['image_url'])) {
     $types .= "s";
 }
 
-if (count($fields) === 0) {
+if (count($fields) === 0 && !isset($data['more_images'])) {
     http_response_code(400);
     echo json_encode(["error" => "No fields provided for update"]);
     exit;
 }
 
-$fields[] = "updated_at = CURRENT_TIMESTAMP";
+$updateSuccess = true;
 
-$params[] = $blog_id;
-$types .= "s";
+if (count($fields) > 0) {
+    $fields[] = "updated_at = CURRENT_TIMESTAMP";
+    $params[] = $blog_id;
+    $types .= "s";
 
-$sql = "UPDATE tk_webapp.blogs SET " . implode(", ", $fields) . " WHERE blog_id = ?";
-$stmt = $conn->prepare($sql);
+    $sql = "UPDATE tk_webapp.blogs SET " . implode(", ", $fields) . " WHERE blog_id = ?";
+    $stmt = $conn->prepare($sql);
 
-if (!$stmt) {
-    http_response_code(500);
-    echo json_encode([
-        "error" => "Prepare failed",
-        "sql" => $sql,
-        "params" => $params,
-        "sql_error" => $conn->error
-    ]);
-    exit;
+    if (!$stmt) {
+        http_response_code(500);
+        echo json_encode([
+            "error" => "Prepare failed",
+            "sql" => $sql,
+            "params" => $params,
+            "sql_error" => $conn->error
+        ]);
+        exit;
+    }
+
+    $stmt->bind_param($types, ...$params);
+    if (!$stmt->execute()) {
+        http_response_code(500);
+        echo json_encode([
+            "error" => "Execute failed",
+            "sql_error" => $stmt->error
+        ]);
+        $updateSuccess = false;
+    }
+
+    $stmt->close();
 }
 
-$stmt->bind_param($types, ...$params);
+if (isset($data['more_images']) && is_array($data['more_images'])) {
+    $deleteStmt = $conn->prepare("DELETE FROM tk_webapp.blog_images WHERE blog_id = ?");
+    $deleteStmt->bind_param("s", $blog_id);
+    if (!$deleteStmt->execute()) {
+        http_response_code(500);
+        echo json_encode(["error" => "Failed to delete old images", "sql_error" => $deleteStmt->error]);
+        $deleteStmt->close();
+        $conn->close();
+        exit;
+    }
+    $deleteStmt->close();
 
-if ($stmt->execute()) {
-    echo json_encode(["success" => true]);
-} else {
-    http_response_code(500);
-    echo json_encode([
-        "error" => "Execute failed",
-        "sql" => $sql,
-        "params" => $params,
-        "sql_error" => $stmt->error
-    ]);
+    $insertStmt = $conn->prepare("INSERT INTO tk_webapp.blog_images (blog_id, image_url) VALUES (?, ?)");
+    foreach ($data['more_images'] as $image_url) {
+        $insertStmt->bind_param("ss", $blog_id, $image_url);
+        if (!$insertStmt->execute()) {
+            http_response_code(500);
+            echo json_encode(["error" => "Failed to insert new image", "image_url" => $image_url, "sql_error" => $insertStmt->error]);
+            $insertStmt->close();
+            $conn->close();
+            exit;
+        }
+    }
+    $insertStmt->close();
 }
 
-$stmt->close();
 $conn->close();
+echo json_encode(["success" => $updateSuccess]);

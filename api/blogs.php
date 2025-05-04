@@ -89,7 +89,25 @@ if ($category === 'ALL') {
 
 if ($stmt->execute()) {
     $result = $stmt->get_result();
-    $response["blogs"] = $result->fetch_all(MYSQLI_ASSOC);
+    while ($row = $result->fetch_assoc()) {
+        $blog_id = $row['blog_id'];
+    
+        $imgStmt = $conn->prepare("SELECT image_url FROM tk_webapp.blog_images WHERE blog_id = ?");
+        $imgStmt->bind_param("s", $blog_id);
+        $imgStmt->execute();
+        $imgResult = $imgStmt->get_result();
+        $images = [];
+    
+        while ($imgRow = $imgResult->fetch_assoc()) {
+            $images[] = $imgRow['image_url'];
+        }
+    
+        $row['more_images'] = $images;
+        $imgStmt->close();
+    
+        $response["blogs"][] = $row;
+    }    
+
 } else {
     http_response_code(500);
     echo json_encode(["error" => "Failed to fetch blogs."]);
