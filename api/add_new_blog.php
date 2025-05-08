@@ -29,14 +29,26 @@ try {
     );
 
     if ($stmt->execute()) {
-        $newId = $conn->insert_id;
         $result = $conn->query("SELECT * FROM tk_webapp.blogs ORDER BY created_at DESC LIMIT 1");
         $blog = $result->fetch_assoc();
-
+    
+        $blog_id = $blog['blog_id'];
+    
+        if (isset($data['more_images']) && is_array($data['more_images'])) {
+            $imgStmt = $conn->prepare("INSERT INTO tk_webapp.blog_images (blog_id, image_url) VALUES (?, ?)");
+    
+            foreach ($data['more_images'] as $imgUrl) {
+                $imgStmt->bind_param("ss", $blog_id, $imgUrl);
+                $imgStmt->execute();
+            }
+    
+            $imgStmt->close();
+        }
+    
         echo json_encode(["success" => true, "blog" => $blog]);
     } else {
         echo json_encode(["success" => false, "error" => $stmt->error]);
-    }
+    }    
 
     $stmt->close();
     $conn->close();
