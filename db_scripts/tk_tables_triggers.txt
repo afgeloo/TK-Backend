@@ -29,12 +29,14 @@ CREATE TABLE tk_webapp.roles (
 
 CREATE TABLE tk_webapp.users (
     user_id VARCHAR(150) PRIMARY KEY,
-    user_image VARCHAR(255),
     user_name VARCHAR(255),
     user_email VARCHAR(255) UNIQUE,
+    user_contact VARCHAR(20),
     password_hash VARCHAR(255),
     role_id VARCHAR(150),
-    FOREIGN KEY (role_id) REFERENCES roles(role_id)
+    member_id VARCHAR(150),
+    FOREIGN KEY (role_id) REFERENCES roles(role_id),
+    FOREIGN KEY (member_id) REFERENCES members(member_id)
 );
 
 CREATE TABLE tk_webapp.blogs (
