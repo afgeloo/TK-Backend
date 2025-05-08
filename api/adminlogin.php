@@ -21,18 +21,32 @@ if (!$email || !$password) {
     exit;
 }
 
-$stmt = $conn->prepare("SELECT user_id, user_name, user_email, password_hash, role_id FROM tk_webapp.users WHERE user_email = ?");
+$stmt = $conn->prepare("
+    SELECT 
+        u.user_id,
+        u.user_name,
+        u.user_email,
+        u.password_hash,
+        u.role_id,
+        u.member_id,
+        m.member_image AS user_image
+    FROM tk_webapp.users u
+    LEFT JOIN tk_webapp.members m ON u.member_id = m.member_id
+    WHERE u.user_email = ?
+");
+
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($user = $result->fetch_assoc()) {
     if (password_verify($password, $user['password_hash'])) {
+        unset($user['password_hash']);
         echo json_encode(["success" => true, "user" => $user]);
     } else {
-        echo json_encode(["success" => false, "message" => "Incorrect password."]);
+        echo json_encode(["success" => false, "exists" => true, "message" => "Incorrect password."]);
     }
 } else {
-    echo json_encode(["success" => false, "message" => "User not found."]);
+    echo json_encode(["success" => false, "exists" => false, "message" => "User not found."]);
 }
 ?>
