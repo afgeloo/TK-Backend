@@ -1,5 +1,7 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
+include '../config/db.php'; // use $conn from your db.php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -19,37 +21,41 @@ if (!$email) {
 $otp = rand(100000, 999999);
 $expires_at = date("Y-m-d H:i:s", strtotime("+5 minutes"));
 
-try {
-  $pdo = new PDO("mysql:host=localhost;dbname=tk_webapp", "root", "");
-  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// Verify email in users table
+$emailEscaped = $conn->real_escape_string($email);
+$checkUser = $conn->prepare("SELECT * FROM users WHERE user_email = ?");
+$checkUser->bind_param("s", $emailEscaped);
+$checkUser->execute();
+$userResult = $checkUser->get_result();
 
-  $stmt = $pdo->prepare("SELECT * FROM users WHERE user_email = ?");
-  $stmt->execute([$email]);
-  $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-  if (!$user) {
-    echo json_encode(["success" => false, "message" => "Email not registered in users table."]);
-    exit;
-  }
-
-  $pdo->prepare("DELETE FROM admin_otp WHERE email = ?")->execute([$email]);
-
-  $otp_id = uniqid("otp_", true);
-  $pdo->prepare("INSERT INTO admin_otp (otp_id, email, otp, expires_at) VALUES (?, ?, ?, ?)")
-      ->execute([$otp_id, $email, $otp, $expires_at]);
-
-} catch (Exception $e) {
-  echo json_encode(["success" => false, "message" => "DB error", "error" => $e->getMessage()]);
+if ($userResult->num_rows === 0) {
+  echo json_encode(["success" => false, "message" => "Email not registered in users table."]);
   exit;
 }
 
+// Delete existing OTPs for this email
+$deleteOtp = $conn->prepare("DELETE FROM admin_otp WHERE email = ?");
+$deleteOtp->bind_param("s", $emailEscaped);
+$deleteOtp->execute();
+
+// Insert new OTP
+$otp_id = uniqid("otp_", true);
+$insertOtp = $conn->prepare("INSERT INTO admin_otp (otp_id, email, otp, expires_at) VALUES (?, ?, ?, ?)");
+$insertOtp->bind_param("ssss", $otp_id, $emailEscaped, $otp, $expires_at);
+
+if (!$insertOtp->execute()) {
+  echo json_encode(["success" => false, "message" => "Failed to store OTP."]);
+  exit;
+}
+
+// Send email
 try {
   $mail = new PHPMailer(true);
   $mail->isSMTP();
   $mail->Host = 'smtp.gmail.com';
   $mail->SMTPAuth = true;
-  $mail->Username = 'afgeloo@gmail.com';         
-  $mail->Password = 'ujgj kyjo enqv ziwt';       
+  $mail->Username = 'afgeloo@gmail.com';
+  $mail->Password = 'ujgj kyjo enqv ziwt';
   $mail->SMTPSecure = 'tls';
   $mail->Port = 587;
 
@@ -85,4 +91,3 @@ try {
     "exception" => $e->getMessage()
   ]);
 }
-

@@ -1,4 +1,6 @@
 <?php
+include '../config/db.php'; // Uses the existing $conn
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Methods: POST");
@@ -13,27 +15,37 @@ if (!$email || !$otp) {
   exit;
 }
 
+// Escape for safety
+$emailEscaped = $conn->real_escape_string($email);
+
 try {
-  $pdo = new PDO("mysql:host=localhost;dbname=tk_webapp", "root", "");
-  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  // Fetch user
+  $userQuery = "SELECT * FROM users WHERE user_email = ?";
+  $stmt = $conn->prepare($userQuery);
+  $stmt->bind_param("s", $emailEscaped);
+  $stmt->execute();
+  $userResult = $stmt->get_result();
 
-  $stmt = $pdo->prepare("SELECT * FROM users WHERE user_email = ?");
-  $stmt->execute([$email]);
-  $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-  if (!$user) {
+  if ($userResult->num_rows === 0) {
     echo json_encode(["success" => false, "message" => "Email not registered."]);
     exit;
   }
 
-  $stmt = $pdo->prepare("SELECT otp, expires_at FROM admin_otp WHERE email = ?");
-  $stmt->execute([$email]);
-  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+  $user = $userResult->fetch_assoc();
 
-  if (!$row) {
+  // Fetch OTP
+  $otpQuery = "SELECT otp, expires_at FROM admin_otp WHERE email = ?";
+  $stmt = $conn->prepare($otpQuery);
+  $stmt->bind_param("s", $emailEscaped);
+  $stmt->execute();
+  $otpResult = $stmt->get_result();
+
+  if ($otpResult->num_rows === 0) {
     echo json_encode(["success" => false, "message" => "No OTP found for this email."]);
     exit;
   }
+
+  $row = $otpResult->fetch_assoc();
 
   if (strtotime($row['expires_at']) < time()) {
     echo json_encode(["success" => false, "message" => "OTP has expired."]);
@@ -45,9 +57,16 @@ try {
     exit;
   }
 
-  $pdo->prepare("DELETE FROM admin_otp WHERE email = ?")->execute([$email]);
+  // Delete OTP after success
+  $deleteStmt = $conn->prepare("DELETE FROM admin_otp WHERE email = ?");
+  $deleteStmt->bind_param("s", $emailEscaped);
+  $deleteStmt->execute();
 
   echo json_encode(["success" => true, "user" => $user]);
-} catch (PDOException $e) {
-  echo json_encode(["success" => false, "message" => "Server error", "error" => $e->getMessage()]);
+} catch (Exception $e) {
+  echo json_encode([
+    "success" => false,
+    "message" => "Server error",
+    "error" => $e->getMessage()
+  ]);
 }
