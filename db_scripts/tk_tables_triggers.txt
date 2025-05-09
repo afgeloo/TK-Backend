@@ -29,12 +29,14 @@ CREATE TABLE tk_webapp.roles (
 
 CREATE TABLE tk_webapp.users (
     user_id VARCHAR(150) PRIMARY KEY,
-    user_image VARCHAR(255),
     user_name VARCHAR(255),
     user_email VARCHAR(255) UNIQUE,
+    user_contact VARCHAR(20),
     password_hash VARCHAR(255),
     role_id VARCHAR(150),
-    FOREIGN KEY (role_id) REFERENCES roles(role_id)
+    member_id VARCHAR(150),
+    FOREIGN KEY (role_id) REFERENCES roles(role_id),
+    FOREIGN KEY (member_id) REFERENCES members(member_id)
 );
 
 CREATE TABLE tk_webapp.blogs (
@@ -106,6 +108,14 @@ CREATE TABLE tk_webapp.members (
     FOREIGN KEY (role_id) REFERENCES roles(role_id)
 );
 
+CREATE TABLE tk_webapp.admin_otp (
+    otp_id VARCHAR(150) PRIMARY KEY,
+    email VARCHAR(255),
+    otp VARCHAR(10) NOT NULL,
+    expires_at DATETIME NOT NULL,
+    FOREIGN KEY (email) REFERENCES tk_webapp.users(user_email) ON DELETE CASCADE
+);
+
 -- Counter tables for all custom Base62 ID generators
 CREATE TABLE tk_webapp.aboutus_id_counter (
     id INT AUTO_INCREMENT PRIMARY KEY
@@ -144,6 +154,10 @@ CREATE TABLE tk_webapp.chatbot_faq_id_counter (
 );
 
 CREATE TABLE tk_webapp.member_id_counter (
+    id INT AUTO_INCREMENT PRIMARY KEY
+);
+
+CREATE TABLE tk_webapp.admin_otp_id_counter (
     id INT AUTO_INCREMENT PRIMARY KEY
 );
 
@@ -332,7 +346,22 @@ BEGIN
 END$$
 DELIMITER ;
 
-
+-- Trigger for admin_otp (optional, only if using otp_id as PK)
+DELIMITER $$
+CREATE TRIGGER before_insert_admin_otp
+BEFORE INSERT ON tk_webapp.admin_otp
+FOR EACH ROW
+BEGIN
+    DECLARE next_id INT;
+    DECLARE base62_id VARCHAR(6);
+    INSERT INTO tk_webapp.admin_otp_id_counter VALUES (NULL);
+    SET next_id = LAST_INSERT_ID();
+    SET base62_id = int_to_base36(next_id);
+    IF NEW.otp_id IS NULL OR NEW.otp_id = '' THEN
+        SET NEW.otp_id = CONCAT('otp-', YEAR(CURRENT_DATE), '-', base62_id);
+    END IF;
+END$$
+DELIMITER ;
 
 
 

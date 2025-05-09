@@ -1,0 +1,7 @@
+{
+    "require": {
+        "resend/resend-php": "^0.18.0",
+        "phpmailer/phpmailer": "^6.10",
+        "twilio/sdk": "^8.6"
+    }
+}
