@@ -54,6 +54,8 @@ try {
         echo json_encode(["success" => false, "error" => $stmt->error]);
     }
 
+    
+
     $stmt->close();
     $conn->close();
 } catch (Exception $e) {

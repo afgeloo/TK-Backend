@@ -19,6 +19,7 @@ while ($row = $result->fetch_assoc()) {
   $members[] = $row;
 }
 
+
 echo json_encode(["success" => true, "members" => $members]);
 $conn->close();
 ?>

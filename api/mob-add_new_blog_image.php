@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-$targetDir = "../../tara-kabataan-webapp/uploads/events-images/";
+$targetDir = "../../tara-kabataan-webapp/uploads/blogs-images/";
 if (!is_dir($targetDir)) {
     mkdir($targetDir, 0777, true);
 }
@@ -27,14 +27,13 @@ if (!in_array($ext, $allowedExtensions)) {
     exit;
 }
 
-
 $imageName = uniqid() . "_" . basename($_FILES["image"]["name"]);
 $targetFile = $targetDir . $imageName;
 
 if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
     echo json_encode([
         "success" => true,
-        "image_url" => "/tara-kabataan/tara-kabataan-webapp/uploads/events-images/" . basename($targetFile)
+        "image_url" => "/tara-kabataan/tara-kabataan-webapp/uploads/blogs-images/" . basename($targetFile)
     ]);
 } else {
     echo json_encode(["success" => false, "error" => "Upload failed"]);
