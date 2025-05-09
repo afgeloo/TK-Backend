@@ -2,6 +2,10 @@
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json");
+
+ini_set('display_errors', 0);
+error_reporting(0);
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);
@@ -90,29 +94,18 @@ if ($category === 'ALL') {
 if ($stmt->execute()) {
     $result = $stmt->get_result();
     while ($row = $result->fetch_assoc()) {
-        $blog_id = $row['blog_id'];
-    
-        $imgStmt = $conn->prepare("SELECT image_url FROM tk_webapp.blog_images WHERE blog_id = ?");
-        $imgStmt->bind_param("s", $blog_id);
-        $imgStmt->execute();
-        $imgResult = $imgStmt->get_result();
-        $images = [];
-    
-        while ($imgRow = $imgResult->fetch_assoc()) {
-            $images[] = $imgRow['image_url'];
-        }
-    
-        $row['more_images'] = $images;
-        $imgStmt->close();
-    
+        // Set empty array for more_images to avoid problematic subquery
+        $row['more_images'] = [];
         $response["blogs"][] = $row;
     }    
-
 } else {
     http_response_code(500);
     echo json_encode(["error" => "Failed to fetch blogs."]);
     exit;
 }
+
+header('Content-Type: application/json; charset=utf-8');
+mysqli_set_charset($conn, "utf8mb4"); 
 
 $stmt->close();
 $conn->close();

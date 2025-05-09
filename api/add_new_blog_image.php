@@ -19,8 +19,10 @@ if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
     exit;
 }
 
-$allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-if (!in_array($_FILES['image']['type'], $allowedTypes)) {
+$allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+$ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
+
+if (!in_array($ext, $allowedExtensions)) {
     echo json_encode(["success" => false, "error" => "Only JPG, PNG, and GIF files are allowed."]);
     exit;
 }
