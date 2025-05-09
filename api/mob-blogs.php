@@ -1,6 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
@@ -13,39 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 }
 
 include '../config/db.php';
-
-// Handle DELETE request for blog deletion
-if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
-    // Get ID from query parameter
-    $id = isset($_GET['id']) ? $_GET['id'] : null;
-    
-    if (!$id) {
-        http_response_code(400);
-        echo json_encode(['success' => false, 'message' => 'Blog ID is required']);
-        exit;
-    }
-    
-    // Prepare and execute the delete query
-    $query = "DELETE FROM tk_webapp.blogs WHERE blog_id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $id);
-    
-    if ($stmt->execute()) {
-        if ($stmt->affected_rows > 0) {
-            echo json_encode(['success' => true, 'message' => 'Blog deleted successfully']);
-        } else {
-            http_response_code(404);
-            echo json_encode(['success' => false, 'message' => 'Blog not found or already deleted']);
-        }
-    } else {
-        http_response_code(500);
-        echo json_encode(['success' => false, 'message' => 'Failed to delete blog: ' . $conn->error]);
-    }
-    
-    $stmt->close();
-    $conn->close();
-    exit;
-}
 
 if (isset($_GET['blog_id'])) {
     $blog_id = $_GET['blog_id'];

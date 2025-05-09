@@ -11,22 +11,39 @@ try {
 
     if (
         !isset($data['title']) || !isset($data['content']) || !isset($data['category']) ||
-        !isset($data['blog_status']) || !isset($data['image_url']) || !isset($data['author'])
+        !isset($data['blog_status']) || !isset($data['author'])
     ) {
         echo json_encode(["success" => false, "error" => "Missing fields"]);
         exit;
     }
 
-    $stmt = $conn->prepare("INSERT INTO tk_webapp.blogs (blog_title, blog_content, blog_category, blog_status, blog_image, blog_author_id) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param(
-        "ssssss",
-        $data['title'],
-        $data['content'],
-        $data['category'],
-        $data['blog_status'],
-        $data['image_url'],
-        $data['author']
-    );
+    // Check if image_url is provided
+    if (isset($data['image_url'])) {
+        $stmt = $conn->prepare("INSERT INTO tk_webapp.blogs (blog_title, blog_content, blog_category, blog_status, blog_image, blog_author_id) VALUES (?, ?, ?, ?, ?, ?)");
+    } else {
+        $stmt = $conn->prepare("INSERT INTO tk_webapp.blogs (blog_title, blog_content, blog_category, blog_status, blog_author_id) VALUES (?, ?, ?, ?, ?)");
+    }
+    // Bind parameters based on whether image_url is provided
+    if (isset($data['image_url'])) {
+        $stmt->bind_param(
+            "ssssss",
+            $data['title'],
+            $data['content'],
+            $data['category'],
+            $data['blog_status'],
+            $data['image_url'],
+            $data['author']
+        );
+    } else {
+        $stmt->bind_param(
+            "sssss",
+            $data['title'],
+            $data['content'],
+            $data['category'],
+            $data['blog_status'],
+            $data['author']
+        );
+    }
 
     if ($stmt->execute()) {
         $result = $conn->query("SELECT * FROM tk_webapp.blogs ORDER BY created_at DESC LIMIT 1");
