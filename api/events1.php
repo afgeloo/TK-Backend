@@ -142,6 +142,10 @@ if ($stmt->execute()) {
     exit;
 }
 
+header('Content-Type: application/json; charset=utf-8');
+mysqli_set_charset($conn, "utf8mb4"); // for emoji support
+
+
 $stmt->close();
 $conn->close();
 
