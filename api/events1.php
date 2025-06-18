@@ -61,7 +61,6 @@ $response = [
     "events" => []
 ];
 
-// Fetch pinned events
 $pinnedQuery = "SELECT 
                   event_id,
                   event_image AS image_url,
@@ -143,7 +142,7 @@ if ($stmt->execute()) {
 }
 
 header('Content-Type: application/json; charset=utf-8');
-mysqli_set_charset($conn, "utf8mb4"); // for emoji support
+mysqli_set_charset($conn, "utf8mb4"); 
 
 
 $stmt->close();
