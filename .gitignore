@@ -1,3 +1,6 @@
+!/vendor/
+!/vendor/**/*
+
 # IDEs and OS
 .DS_Store
 .idea/
